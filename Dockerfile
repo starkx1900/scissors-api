@@ -21,4 +21,4 @@ RUN npm run build
 CMD ["npm", "run", "start:prod"]
 
 # Expose the port the app runs on
-EXPOSE 3000
+EXPOSE 3300
