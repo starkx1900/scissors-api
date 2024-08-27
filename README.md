@@ -54,7 +54,7 @@ Easily manage and reuse your links with Scissor's link history feature. View a l
    Create a `.env` file in the root directory of the project and add the following environment variables:
 
    ```bash
-   PORT=3000
+   PORT=3300
    MONGODB_URI=mongodb://localhost:27017/scissor
    REDIS_HOST=localhost
    REDIS_PORT=6379
@@ -68,3 +68,7 @@ Easily manage and reuse your links with Scissor's link history feature. View a l
 
 5. **Access the application:**
    Open your browser and go to `http://localhost:3300` to access the Scissor application.
+
+## Live API Documentation
+
+The live API documentation is available at: [Scissor API Docs]('https://scissors-api-3ypq.onrender.com/api-docs')
