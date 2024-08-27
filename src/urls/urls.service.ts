@@ -117,15 +117,15 @@ export class UrlsService {
       });
     }
 
-    console.log('The queue is ', this.analyticsQueue);
-    await this.analyticsQueue.add('track', {
-      urlId: url.id,
-      ipAddress,
-      userAgent,
-    });
+    // console.log('The queue is ', this.analyticsQueue);
+    // await this.analyticsQueue.add('track', {
+    //   urlId: url.id,
+    //   ipAddress,
+    //   userAgent,
+    // });
 
-    console.log('The queue jobs are  ', this.analyticsQueue.getJobs);
-    // await this.trackAnalytics(url.id, ipAddress, userAgent);
+    // console.log('The queue jobs are  ', this.analyticsQueue.getJobs);
+    await this.trackAnalytics(url.id, ipAddress, userAgent);
 
     await this.urlModel.findByIdAndUpdate(url._id, { $inc: { clicks: 1 } });
 
