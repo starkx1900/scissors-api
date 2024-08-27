@@ -67,4 +67,4 @@ Easily manage and reuse your links with Scissor's link history feature. View a l
    ```
 
 5. **Access the application:**
-   Open your browser and go to `http://localhost:3000` to access the Scissor application.
+   Open your browser and go to `http://localhost:3300` to access the Scissor application.
