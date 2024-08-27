@@ -8,7 +8,6 @@ import {
   Param,
   Post,
   Request,
-  Res,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -18,7 +17,6 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { Response } from 'express';
 import { Types } from 'mongoose';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CreateUrlDto } from './dto/create-url.dto';
@@ -87,7 +85,6 @@ export class UrlsController {
   async redirectToOriginal(
     @Param('shortenedUrl') shortenedUrl: string,
     @Request() req,
-    @Res() res: Response,
   ) {
     const ipAddress =
       req.headers['x-forwarded-for']?.split(',')[0].trim() ||
@@ -100,7 +97,7 @@ export class UrlsController {
       userAgent,
     );
 
-    return res.redirect(url);
+    return { originalUrl: url };
   }
 
   @ApiBearerAuth()
