@@ -1,85 +1,70 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Scissor - The Ultimate URL Shortening Tool
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Overview
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+**Scissor** is a sleek and intuitive platform that enables users to shorten, customize, and track URLs effortlessly. In a world where brevity is the new black, Scissor offers a simple yet powerful tool to make your URLs as concise as possible. Whether you're sharing links on social media, creating branded links for your business, or tracking link performance, Scissor has got you covered.
 
-## Description
+## Features
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### 1. URL Shortening
 
-## Project setup
+Scissor allows users to shorten long URLs with ease. Simply paste a long URL into the platform, and a shortened URL will be automatically generated. The shortened URLs are designed to be as short as possible, making them perfect for sharing on social media or other channels.
 
-```bash
-$ npm install
-```
+### 2. Custom URLs
 
-## Compile and run the project
+Customize your shortened URLs to reflect your brand or content. Scissor allows users to choose their own custom domain name and tailor the URL to suit their needs. This feature is particularly useful for individuals or small businesses looking to create branded links.
 
-```bash
-# development
-$ npm run start
+### 3. QR Code Generation
 
-# watch mode
-$ npm run start:dev
+Scissor provides an option to generate QR codes for your shortened URLs. You can download the QR code image and use it in your promotional materials or on your website. This feature is powered by a third-party QR code generator API integrated into the Scissor platform.
 
-# production mode
-$ npm run start:prod
-```
+### 4. Analytics
 
-## Run tests
+Track the performance of your shortened URLs with Scissor's built-in analytics. See how many clicks your links have received, and gain insights into where the clicks are coming from. This feature allows you to monitor the effectiveness of your links in real-time.
 
-```bash
-# unit tests
-$ npm run test
+### 5. Link History
 
-# e2e tests
-$ npm run test:e2e
+Easily manage and reuse your links with Scissor's link history feature. View a list of all the links you have created, making it simple to find and reuse previously shortened URLs.
 
-# test coverage
-$ npm run test:cov
-```
+## Getting Started
 
-## Resources
+### Prerequisites
 
-Check out a few resources that may come in handy when working with NestJS:
+- **Node.js** (version 14.x or higher)
+- **NPM** or **Yarn**
+- **MongoDB** for storing user data, URLs, and analytics
+- An account with a third-party QR code generator API (e.g., QRCode Monkey, GoQR)
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### Installation
 
-## Support
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/yourusername/scissor.git
+   cd scissor
+   ```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+````
 
-## Stay in touch
+2. **Install dependencies:**
+ ```bash
+ npm install
+````
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+3. **Set up environment variables:**
+   Create a `.env` file in the root directory of the project and add the following environment variables:
 
-## License
+   ```bash
+   PORT=3000
+   MONGODB_URI=mongodb://localhost:27017/scissor
+   REDIS_HOST=localhost
+   REDIS_PORT=6379
+   ```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+4. **Start the development server:**
+
+   ```bash
+   npm run start:dev
+   ```
+
+5. **Access the application:**
+   Open your browser and go to `http://localhost:3000` to access the Scissor application.
