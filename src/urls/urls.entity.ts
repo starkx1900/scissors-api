@@ -24,6 +24,9 @@ export class Url extends Document {
 
   @Prop({ type: Types.ObjectId, ref: 'User', required: true })
   createdBy: string;
+
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Analytics' }] })
+  analytics: Types.ObjectId[];
 }
 
 export const UrlSchema = SchemaFactory.createForClass(Url);

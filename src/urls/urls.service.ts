@@ -1,6 +1,7 @@
 import { InjectQueue } from '@nestjs/bull';
 import {
   ConflictException,
+  ForbiddenException,
   HttpStatus,
   Injectable,
   NotFoundException,
@@ -8,7 +9,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import axios from 'axios';
 import { Queue } from 'bull';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Analytics } from 'src/analytics/analytics.entity';
 import { User } from '../users/users.entity';
 import { CreateUrlDto } from './dto/create-url.dto';
@@ -89,8 +90,35 @@ export class UrlsService {
     }
   }
 
+  async findById(id: Types.ObjectId, userId?: string): Promise<Url> {
+    const url = await this.urlModel
+      .findById(id)
+      .populate({ path: 'analytics', model: 'Analytics' })
+      .exec();
+    if (!url) {
+      throw new NotFoundException({
+        statusCode: HttpStatus.NOT_FOUND,
+        message: 'URL not found.',
+      });
+    }
+
+    // If userId is provided, check if the URL belongs to the user
+    console.log(
+      'Creator',
+      userId.toString() === (url.createdBy as any)._id.toString(),
+    );
+    if (userId && (url.createdBy as any)._id.toString() !== userId.toString()) {
+      throw new ForbiddenException({
+        statusCode: HttpStatus.FORBIDDEN,
+        message: 'You do not have permission to access this URL.',
+      });
+    }
+
+    return url;
+  }
+
   async findUrl(shortenedUrl: string): Promise<Url> {
-    const url = this.urlModel.findOne({ shortenedUrl }).exec();
+    const url = await this.urlModel.findOne({ shortenedUrl }).exec();
     if (!url) {
       throw new NotFoundException({
         statusCode: HttpStatus.NOT_FOUND,
@@ -110,6 +138,22 @@ export class UrlsService {
     userAgent: string,
   ): Promise<string> {
     const url = await this.findUrl(shortenedUrl);
+
+    const analytics = await this.trackAnalytics(url.id, ipAddress, userAgent);
+    await this.urlModel.findByIdAndUpdate(url._id, {
+      $inc: { clicks: 1 },
+      $push: { analytics: analytics._id },
+    });
+
+    return url.originalUrl;
+  }
+
+  async deleteUrl(
+    id: Types.ObjectId,
+    userId: string,
+  ): Promise<{ message: string }> {
+    const url = await this.findById(id, userId);
+
     if (!url) {
       throw new NotFoundException({
         statusCode: HttpStatus.NOT_FOUND,
@@ -117,18 +161,8 @@ export class UrlsService {
       });
     }
 
-    // console.log('The queue is ', this.analyticsQueue);
-    // await this.analyticsQueue.add('track', {
-    //   urlId: url.id,
-    //   ipAddress,
-    //   userAgent,
-    // });
+    await this.urlModel.deleteOne({ _id: id }).exec();
 
-    // console.log('The queue jobs are  ', this.analyticsQueue.getJobs);
-    await this.trackAnalytics(url.id, ipAddress, userAgent);
-
-    await this.urlModel.findByIdAndUpdate(url._id, { $inc: { clicks: 1 } });
-
-    return url.originalUrl;
+    return { message: 'URL deleted successfully.' };
   }
 }

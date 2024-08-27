@@ -1,7 +1,10 @@
 import {
+  BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
+  HttpCode,
   Param,
   Post,
   Request,
@@ -11,10 +14,12 @@ import {
 import {
   ApiBearerAuth,
   ApiOperation,
+  ApiParam,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { Response } from 'express';
+import { Types } from 'mongoose';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CreateUrlDto } from './dto/create-url.dto';
 import { UrlResponseDto } from './dto/responses-dto';
@@ -34,6 +39,7 @@ export class UrlsController {
     status: 200,
     description: 'URLs retrieval successful',
     type: UrlResponseDto,
+    isArray: true,
   })
   @ApiResponse({ status: 401, description: 'Unauthorized.' })
   @UseGuards(JwtAuthGuard)
@@ -68,7 +74,16 @@ export class UrlsController {
     };
   }
 
-  @Get(':shortenedUrl')
+  @ApiOperation({
+    summary: 'Redirect to the original URL based on the shortened URL',
+  })
+  @ApiParam({
+    name: 'shortenedUrl',
+    description: 'The shortened URL to be redirected',
+  })
+  @ApiResponse({ status: 302, description: 'Redirect to the original URL' })
+  @ApiResponse({ status: 404, description: 'Shortened URL not found' })
+  @Get('/redirect/:shortenedUrl')
   async redirectToOriginal(
     @Param('shortenedUrl') shortenedUrl: string,
     @Request() req,
@@ -86,5 +101,47 @@ export class UrlsController {
     );
 
     return res.redirect(url);
+  }
+
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary:
+      'Retrieves the shortened url details for the current logged in user',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'URL retrieval successful',
+    type: UrlResponseDto,
+  })
+  @ApiResponse({ status: 401, description: 'Unauthorized.' })
+  @UseGuards(JwtAuthGuard)
+  @Get('/:urlId')
+  async getUrl(
+    @Request() req,
+    @Param('urlId') urlId: Types.ObjectId,
+  ): Promise<{ message: string; data: Url }> {
+    if (!Types.ObjectId.isValid(urlId)) {
+      throw new BadRequestException(`${urlId} is not a valid ObjectId`);
+    }
+    const url = await this.urlsService.findById(urlId, req.user._id);
+    return {
+      message: 'URL retrieval successful',
+      data: url,
+    };
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Delete a URL' })
+  @ApiResponse({ status: 200, description: 'URL deleted successfully.' })
+  @ApiResponse({ status: 404, description: 'URL not found.' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @Delete(':id')
+  @HttpCode(200)
+  async deleteUrl(
+    @Param('urlId') urlId: Types.ObjectId,
+    @Request() req,
+  ): Promise<{ message: string }> {
+    return this.urlsService.deleteUrl(urlId, req.user._id);
   }
 }

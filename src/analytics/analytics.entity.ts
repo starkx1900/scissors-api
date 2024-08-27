@@ -17,11 +17,14 @@ export class Analytics extends Document {
   @Prop({ type: String, required: true })
   ipAddress: string;
 
+  @Prop({ type: Date, default: Date.now })
+  date: Date;
+
   @Prop({ type: String, required: true })
   userAgent: string;
 
   @Prop({ type: String })
-  location: Date;
+  location: string;
 }
 
 export const AnalyticsSchema = SchemaFactory.createForClass(Analytics);
