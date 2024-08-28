@@ -17,6 +17,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { SkipThrottle } from '@nestjs/throttler';
 import { Types } from 'mongoose';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CreateUrlDto } from './dto/create-url.dto';
@@ -81,6 +82,7 @@ export class UrlsController {
   })
   @ApiResponse({ status: 302, description: 'Redirect to the original URL' })
   @ApiResponse({ status: 404, description: 'Shortened URL not found' })
+  @SkipThrottle()
   @Get('/redirect/:shortenedUrl')
   async redirectToOriginal(
     @Param('shortenedUrl') shortenedUrl: string,
